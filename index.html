@@ -4,11 +4,12 @@
 <head>
     <meta charset="UTF-8">
     <title>Dummy Page</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
     <!--[if lt IE 9]>
     <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
     <style>
-    body {
+        body {
         text-align: center;
         padding: 150px;
     }
@@ -38,17 +39,95 @@
         color: #333;
         text-decoration: none;
     }
+
+    body {
+        margin: 0;
+        overflow: hidden;
+    }
+
+    .wrapper {
+        position: relative;
+        min-height: 100vh;
+    }
+
+    [class|="confetti"] {
+        position: absolute;
+    }
+
+    .red {
+        background-color: #E94A3F;
+    }
+
+    .yellow {
+        background-color: #FAA040;
+    }
+
+    .blue {
+        background-color: #5FC9F5;
+    }
     </style>
 </head>
 
 <body>
-    <article>
-        <h1>We&rsquo;ll take this down eventually!</h1>
-        <div>
-            <p>Sorry for the dummy page but we&rsquo;re performing some testing at the moment.</p>
-            <p>&mdash; The Team</p>
-        </div>
-    </article>
+    <div id="wrapper" class="wrapper">
+        <article>
+            <h1>We&rsquo;ll take this down eventually!</h1>
+            <div>
+                <p>Sorry for the dummy page but we&rsquo;re performing some testing at the moment.</p>
+                <p>&mdash; The Team</p>
+            </div>
+        </article>
+    </div>
+    <script type="text/javascript">
+    for (var i = 0; i < 250; i++) {
+        create(i);
+    }
+
+    function create(i) {
+        var width = Math.random() * 8;
+        var height = width * 0.4;
+        var colourIdx = Math.ceil(Math.random() * 3);
+        var colour = "red";
+        switch (colourIdx) {
+            case 1:
+                colour = "yellow";
+                break;
+            case 2:
+                colour = "blue";
+                break;
+            default:
+                colour = "red";
+        }
+        $('<div class="confetti-' + i + ' ' + colour + '"></div>').css({
+            "width": width + "px",
+            "height": height + "px",
+            "top": -Math.random() * 20 + "%",
+            "left": Math.random() * 100 + "%",
+            "opacity": Math.random() + 0.5,
+            "transform": "rotate(" + Math.random() * 360 + "deg)"
+        }).appendTo('.wrapper');
+
+        drop(i);
+    }
+
+    function drop(x) {
+        $('.confetti-' + x).animate({
+            top: "100%",
+            left: "+=" + Math.random() * 15 + "%"
+        }, Math.random() * 3000 + 3000, function() {
+            reset(x);
+        });
+    }
+
+    function reset(x) {
+        $('.confetti-' + x).animate({
+            "top": -Math.random() * 20 + "%",
+            "left": "-=" + Math.random() * 15 + "%"
+        }, 0, function() {
+            drop(x);
+        });
+    }
+    </script>
 </body>
 
 </html>
